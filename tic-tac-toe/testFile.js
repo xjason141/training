@@ -56,26 +56,19 @@ function validateMove(position) {
 // TODO: list out all the combinations of winning, you will neeed this
 // one of the winning combinations is already done for you
 let winCombinations = [
-    [1, 2, 3], [3,5,7],
+    [1, 2, 3], [3, 5, 7], [4, 5, 6], [7, 8, 9],
+    [1, 4, 7,], [1, 5, 9], [2, 5, 8], [3, 6, 9]
 ];
 
 // TODO: implement a logic to check if the previous winner just win
 // This method should return with true or false
 function checkWin(player) {
-    let counter = 0;
-    for (winSet in winCombinations){
-        let winnerCheck = winCombinations[winSet];
-        for (items in winnerCheck){
-            if (board[winnerCheck[items]] == player){
-                counter++;
-                if (counter == 3){
-                    return true
-                } else {
-                    return false
-                }
-            }
+    for (winSet of winCombinations){
+        if (board[winSet[0]] == player && board[winSet[1]] == player && board[winSet[2]] == player){
+            return true;
         }
     }
+    return false
 }
 
 // TODO: implement a function to check if the game board is already full
