@@ -75,10 +75,20 @@ function checkWin(player) {
 // For tic-tac-toe, tie bascially means the whole board is already occupied
 // This function should return with boolean
 function checkFull() {
-
+    //check against original board array top of code
+    let count = 0;
+    for (pos in board){
+        if(board[pos] == ' '){
+            return false
+        } else {
+            count ++;
+        }
+    } if (count != 9){
+        return false
+    } else {
+        return true
+    }
 }
-
-
 
 // Main Program, a Tester for your functions
 // It does not cover the printBoard() function.
