@@ -109,34 +109,31 @@ function checkFull() {
 // TODO: the main part of the program
 // This part should handle prompting the users to put in their next step, checking for winning or tie, etc
 function playTurn(player) {
-    if (checkFull()) {
-        console.log('Its a tie');
-        winnerIdentified = true;
-        retry()
-    };
-    
     let choice = prompt(player + '\'s turn: ');
-    if (validateMove(choice) && player == 'X') {
-        markBoard(choice, player);
-        printBoard();
-        counter++;
-        if (checkWin(player)){
-            console.log('Player ' + player + ' wins.');
-            winnerIdentified = true;
-            retry()
-        }
-    } else if (validateMove(choice) && player == 'Y') {
-        markBoard(choice, player);
-        printBoard();
-        counter--;
-        if (checkWin(player)){
-            console.log('Player ' + player + ' wins.')
-            winnerIdentified = true;
-            retry()
+    if (!checkFull()){
+        if (validateMove(choice) && player == 'X') {
+            markBoard(choice, player);
+            printBoard();
+            counter++;
+            if (checkWin(player)){
+                console.log('Player ' + player + ' wins.')
+                winnerIdentified = true;
+            }
+        } else if (validateMove(choice) && player == 'Y') {
+            markBoard(choice, player);
+            printBoard();
+            counter--;
+            if (checkWin(player)){
+                console.log('Player ' + player + ' wins.')
+                winnerIdentified = true;
+            }
+        } else {
+            console.log('Invalid move. Try again.')
         }
     } else {
-        console.log('Invalid move. Try again.')
-    }    
+        console.log("Its a tie")
+        winnerIdentified = true;
+    }
 }
 
 // entry point of the whole program
@@ -151,38 +148,16 @@ let winnerIdentified = false
 let currentTurnPlayer = 'X'
 let counter = 0;
 
-function playGame(){
-    while (!winnerIdentified){
-        // feel free to add logic here if needed, e.g. announcing winner or tie
-        if (counter == 0){
-            currentTurnPlayer = 'X';
-            playTurn(currentTurnPlayer);
-        } else {
-            currentTurnPlayer = 'Y';
-            playTurn(currentTurnPlayer)
-        }
+while (!winnerIdentified){
+    // feel free to add logic here if needed, e.g. announcing winner or tie
+    if (counter == 0){
+        currentTurnPlayer = 'X';
+        playTurn(currentTurnPlayer);
+    } else {
+        currentTurnPlayer = 'Y';
+        playTurn(currentTurnPlayer)
     }
 }
+
+
 // Bonus Point: Implement the feature for the user to restart the game after a tie or game over
-
-function retry (){
-    if (winnerIdentified == true){
-        let ask = prompt('Do you want to play again? Y/N: ').toUpperCase();
-        if (ask == 'Y') {
-            for (i in board) {
-                board[i] = ' ';
-            }
-            winnerIdentified = false;
-            counter = 0;
-            playGame()
-        } else {
-            console.log('Thanks for playing. Goodbye.');
-        }
-    }
-}
-
-//line below runs the script
-playGame()
-
-
-

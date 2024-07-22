@@ -10,6 +10,7 @@ Players 'X' and 'O' take turn inputing their position on the command line using 
 // importing user import library
 const prompt = require('prompt-sync')({sigint: true});
 const assert = require('assert');
+const { brotliCompress } = require('zlib');
 
 // The board object used to save the current status of a gameplay
 let board = {
@@ -26,13 +27,31 @@ let board = {
 
 // TODO: update the gameboard with the user input
 function markBoard(position, mark) {
-
-}
+    board[position] = mark;
+};
 
 // TODO: print the game board as described at the top of this code skeleton
 // Will not be tested in Part 1
 function printBoard() {
-
+    updatedBoard = {
+        1: ' ', 2: ' ', 3: ' ',
+        4: ' ', 5: ' ', 6: ' ',
+        7: ' ', 8: ' ', 9: ' '
+    };
+    for (pos in updatedBoard){
+        if (board[pos] == ' '){
+            updatedBoard[pos] = pos;
+        } else {
+            updatedBoard[pos] = board[pos];
+        }
+    }
+    
+    console.log(
+        '',updatedBoard[1],'|',updatedBoard[2],'|',updatedBoard[3],'\n' +
+        ' --------- \n' +
+        '',updatedBoard[4],'|',updatedBoard[5],'|',updatedBoard[6],'\n' +
+        ' --------- \n' +
+        '',updatedBoard[7],'|',updatedBoard[8],'|',updatedBoard[9],'\n');
 }
 
 
@@ -42,29 +61,53 @@ function printBoard() {
 // another case is that the position is already occupied
 // position is an input String
 function validateMove(position) {
-
+    if (board[position] == ' '){
+        if (position>0 && position<10){
+            return true
+        } else {
+            return false
+        }
+    } else {
+        return false
+    }
 }
 
 // TODO: list out all the combinations of winning, you will neeed this
 // one of the winning combinations is already done for you
 let winCombinations = [
-    [1, 2, 3],
+    [1, 2, 3], [3, 5, 7], [4, 5, 6], [7, 8, 9],
+    [1, 4, 7,], [1, 5, 9], [2, 5, 8], [3, 6, 9]
 ];
 
 // TODO: implement a logic to check if the previous winner just win
 // This method should return with true or false
 function checkWin(player) {
-
+    for (winSet of winCombinations){
+        if (board[winSet[0]] == player && board[winSet[1]] == player && board[winSet[2]] == player){
+            return true;
+        }
+    }
+    return false
 }
 
 // TODO: implement a function to check if the game board is already full
 // For tic-tac-toe, tie bascially means the whole board is already occupied
 // This function should return with boolean
 function checkFull() {
-
+    //check against original board array top of code
+    let count = 0;
+    for (pos in board){
+        if(board[pos] == ' '){
+            return false
+        } else {
+            count ++;
+        }
+    } if (count != 9){
+        return false
+    } else {
+        return true
+    }
 }
-
-
 
 // Main Program, a Tester for your functions
 // It does not cover the printBoard() function.
