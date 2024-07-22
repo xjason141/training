@@ -168,18 +168,23 @@ function playGame(){
 function retry (){
     if (winnerIdentified == true){
         let ask = prompt('Do you want to play again? Y/N: ').toUpperCase();
-        if (ask == 'Y') {
-            for (i in board) {
-                board[i] = ' ';
+        // while (ask !== 'Y' || prompt !== 'N'){
+            if (ask == 'Y') {
+                for (i in board) {
+                    board[i] = ' ';
+                }
+                winnerIdentified = false;
+                counter = 0;
+                playGame()
+            } else if (ask == 'N') {
+                console.log('Thanks for playing. Goodbye.');
+            } else {
+                console.log('Invalid input.')
+                retry()
             }
-            winnerIdentified = false;
-            counter = 0;
-            playGame()
-        } else {
-            console.log('Thanks for playing. Goodbye.');
         }
     }
-}
+// }
 
 //line below runs the script
 playGame()
